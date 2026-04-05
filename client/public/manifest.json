@@ -1,0 +1,16 @@
+{
+  "name": "MessoChat",
+  "short_name": "MessoChat",
+  "description": "Messagerie de groupe en temps reel",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#202225",
+  "theme_color": "#36393f",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
