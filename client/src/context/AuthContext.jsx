@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
-
+/*
   useEffect(() => {
     if (token) {
       fetch(`${API_URL}/api/auth/me`, {
@@ -32,7 +32,52 @@ export function AuthProvider({ children }) {
       setLoading(false);
     }
   }, [token]);
-
+*/
+  useEffect(() => {  
+  if (token) {  
+    fetch(`${API_URL}/api/auth/me`, {  
+      headers: { Authorization: `Bearer ${token}` },  
+    })  
+      .then((r) => r.json())  
+      .then((data) => {  
+        if (data.user) {  
+          setUser(data.user);  
+        } else {  
+          localStorage.removeItem("token");  
+          setToken(null);  
+        }  
+      })  
+      .catch(() => {  
+        localStorage.removeItem("token");  
+        setToken(null);  
+      })  
+      .finally(() => setLoading(false));  
+  } else {  
+    // Pas de token — vérifier le cookie "username"  
+    const match = document.cookie.match(/(^| )username=([^;]+)/);  
+    const cookieUsername = match ? decodeURIComponent(match[2]) : null;  
+  
+    if (cookieUsername) {  
+      fetch(`${API_URL}/api/auth/auto-login`, {  
+        method: "POST",  
+        headers: { "Content-Type": "application/json" },  
+        body: JSON.stringify({ username: cookieUsername }),  
+      })  
+        .then((r) => r.json())  
+        .then((data) => {  
+          if (data.token) {  
+            localStorage.setItem("token", data.token);  
+            setToken(data.token);  
+            setUser(data.user);  
+          }  
+        })  
+        .catch(() => {})  
+        .finally(() => setLoading(false));  
+    } else {  
+      setLoading(false);  
+    }  
+  }  
+}, [token]);
   const login = async (username, password) => {
     const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
