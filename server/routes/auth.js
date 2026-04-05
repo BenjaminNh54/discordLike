@@ -75,5 +75,29 @@ router.get("/me", (req, res) => {
     res.status(403).json({ error: "Invalid token" });
   }
 });
-
+router.post("/auto-login", (req, res) => {  
+  const { username } = req.body;  
+  
+  if (!username || username.length < 3) {  
+    return res.status(400).json({ error: "Invalid username" });  
+  }  
+  
+  let user = db.prepare("SELECT id, username FROM users WHERE username = ?").get(username);  
+  
+  if (!user) {  
+    // Créer le compte avec un mot de passe aléatoire  
+    const crypto = require("crypto");  
+    const randomPassword = crypto.randomUUID();  
+    const hashed = bcrypt.hashSync(randomPassword, 10);  
+    const result = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)").run(username, hashed);  
+    user = { id: result.lastInsertRowid, username };  
+  }  
+  
+  const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: "7d" });  
+  
+  res.json({  
+    token,  
+    user: { id: user.id, username: user.username },  
+  });  
+});
 module.exports = router;
