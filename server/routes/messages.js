@@ -3,12 +3,10 @@ const { dbGet, dbAll, dbRun } = require("../db");
   
 const router = express.Router();  
   
-// Get messages for a group  
 router.get("/:groupId", async (req, res) => {  
   try {  
     const groupId = req.params.groupId;  
   
-    // Check membership  
     const member = await dbGet(  
       "SELECT * FROM group_members WHERE group_id = ? AND user_id = ?",  
       [groupId, req.userId]  
@@ -46,7 +44,6 @@ router.get("/:groupId", async (req, res) => {
   }  
 });  
   
-// Delete a message (own or admin)  
 router.delete("/:messageId", async (req, res) => {  
   try {  
     const message = await dbGet("SELECT * FROM messages WHERE id = ?", [req.params.messageId]);  
