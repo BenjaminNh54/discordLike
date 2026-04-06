@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import Admin from "./pages/Admin";
+import Landing from "./pages/Landing"; 
 import "./App.css";
 
 function PrivateRoute({ children }) {
@@ -19,20 +20,20 @@ function PublicRoute({ children }) {
   return !user ? children : <Navigate to="/" />;
 }
 
-function App() {
-  return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-          <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path="/chat/:groupId" element={<PrivateRoute><Chat /></PrivateRoute>} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  );
-}
-
+function App() {  
+  return (  
+    <AuthProvider>  
+      <BrowserRouter>  
+        <Routes>  
+          <Route path="/" element={<Landing />} />  
+          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />  
+          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />  
+          <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />  
+          <Route path="/chat/:groupId" element={<PrivateRoute><Chat /></PrivateRoute>} />  
+          <Route path="/admin" element={<Admin />} />  
+        </Routes>  
+      </BrowserRouter>  
+    </AuthProvider>  
+  );  
+}  
 export default App;
