@@ -170,7 +170,7 @@ a:hover { text-decoration: underline; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thin-thumb); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #1a1b1e; }
 /* Landing page */  
-.landing-page { min-height: 100vh; background: var(--bg-tertiary); overflow-y: auto; }  
+.landing-page { height: 100vh; background: var(--bg-tertiary); overflow-y: auto; }
 .landing-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; background: var(--bg-secondary); box-shadow: var(--elevation-low); }  
 .landing-nav-brand { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; color: var(--header-primary); }  
 .landing-nav-links { display: flex; align-items: center; gap: 12px; }  
