@@ -4,7 +4,6 @@ const { dbGet, dbRun, dbAll } = require("../db");
   
 const router = express.Router();  
   
-// Admin login  
 router.post("/login", async (req, res) => {  
   try {  
     const { password } = req.body;  
@@ -16,7 +15,6 @@ router.post("/login", async (req, res) => {
     if (!bcrypt.compareSync(password, setting.value)) {  
       return res.status(401).json({ error: "Wrong password" });  
     }  
-  
     res.json({ success: true });  
   } catch (err) {  
     console.error("admin login error:", err);  
@@ -24,7 +22,6 @@ router.post("/login", async (req, res) => {
   }  
 });  
   
-// Change admin password  
 router.post("/change-password", async (req, res) => {  
   try {  
     const { currentPassword, newPassword } = req.body;  
@@ -43,7 +40,6 @@ router.post("/change-password", async (req, res) => {
   }  
 });  
   
-// Get all users  
 router.get("/users", async (req, res) => {  
   try {  
     const users = await dbAll("SELECT id, username, avatar, created_at FROM users ORDER BY created_at DESC");  
@@ -54,7 +50,6 @@ router.get("/users", async (req, res) => {
   }  
 });  
   
-// Delete user  
 router.delete("/users/:id", async (req, res) => {  
   try {  
     await dbRun("DELETE FROM group_members WHERE user_id = ?", [req.params.id]);  
@@ -68,7 +63,6 @@ router.delete("/users/:id", async (req, res) => {
   }  
 });  
   
-// Get all groups  
 router.get("/groups", async (req, res) => {  
   try {  
     const groups = await dbAll(`  
@@ -85,7 +79,6 @@ router.get("/groups", async (req, res) => {
   }  
 });  
   
-// Delete group  
 router.delete("/groups/:id", async (req, res) => {  
   try {  
     await dbRun("DELETE FROM messages WHERE group_id = ?", [req.params.id]);  
@@ -99,7 +92,6 @@ router.delete("/groups/:id", async (req, res) => {
   }  
 });  
   
-// Get all messages  
 router.get("/messages", async (req, res) => {  
   try {  
     const messages = await dbAll(`  
@@ -117,7 +109,6 @@ router.get("/messages", async (req, res) => {
   }  
 });  
   
-// Delete message  
 router.delete("/messages/:id", async (req, res) => {  
   try {  
     await dbRun("DELETE FROM messages WHERE id = ?", [req.params.id]);  
@@ -128,7 +119,6 @@ router.delete("/messages/:id", async (req, res) => {
   }  
 });  
   
-// Get stats  
 router.get("/stats", async (req, res) => {  
   try {  
     const userCount = (await dbGet("SELECT COUNT(*) as count FROM users")).count;  
