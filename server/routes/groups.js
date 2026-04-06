@@ -3,7 +3,6 @@ const { dbGet, dbRun, dbAll } = require("../db");
   
 const router = express.Router();  
   
-// Create a group  
 router.post("/", async (req, res) => {  
   try {  
     const { name, description } = req.body;  
@@ -14,7 +13,6 @@ router.post("/", async (req, res) => {
       [name, description || "", req.userId]  
     );  
   
-    // Add creator as admin member  
     await dbRun(  
       "INSERT INTO group_members (group_id, user_id, role) VALUES (?, ?, 'admin')",  
       [result.lastInsertRowid, req.userId]  
@@ -28,7 +26,6 @@ router.post("/", async (req, res) => {
   }  
 });  
   
-// Get my groups  
 router.get("/my", async (req, res) => {  
   try {  
     const groups = await dbAll(`  
@@ -45,7 +42,6 @@ router.get("/my", async (req, res) => {
   }  
 });  
   
-// Get all groups (for browsing/joining)  
 router.get("/all", async (req, res) => {  
   try {  
     const groups = await dbAll(`  
@@ -64,7 +60,6 @@ router.get("/all", async (req, res) => {
   }  
 });  
   
-// Get group details  
 router.get("/:id", async (req, res) => {  
   try {  
     const group = await dbGet(`  
@@ -84,7 +79,6 @@ router.get("/:id", async (req, res) => {
     `, [req.params.id]);  
   
     const isMember = members.some((m) => m.id === req.userId);  
-  
     res.json({ group, members, isMember });  
   } catch (err) {  
     console.error("get group error:", err);  
@@ -92,7 +86,6 @@ router.get("/:id", async (req, res) => {
   }  
 });  
   
-// Request to join a group  
 router.post("/:id/join", async (req, res) => {  
   try {  
     const groupId = req.params.id;  
@@ -113,7 +106,6 @@ router.post("/:id/join", async (req, res) => {
       "INSERT OR REPLACE INTO join_requests (group_id, user_id, status) VALUES (?, ?, 'pending')",  
       [groupId, req.userId]  
     );  
-  
     res.json({ message: "Join request sent" });  
   } catch (err) {  
     console.error("join group error:", err);  
@@ -121,7 +113,6 @@ router.post("/:id/join", async (req, res) => {
   }  
 });  
   
-// Get pending join requests (admin only)  
 router.get("/:id/requests", async (req, res) => {  
   try {  
     const group = await dbGet("SELECT * FROM groups_table WHERE id = ?", [req.params.id]);  
@@ -136,7 +127,6 @@ router.get("/:id/requests", async (req, res) => {
       WHERE jr.group_id = ? AND jr.status = 'pending'  
       ORDER BY jr.created_at DESC  
     `, [req.params.id]);  
-  
     res.json({ requests });  
   } catch (err) {  
     console.error("get requests error:", err);  
@@ -144,7 +134,6 @@ router.get("/:id/requests", async (req, res) => {
   }  
 });  
   
-// Accept/reject join request  
 router.post("/:id/requests/:requestId", async (req, res) => {  
   try {  
     const { action } = req.body;  
@@ -175,7 +164,6 @@ router.post("/:id/requests/:requestId", async (req, res) => {
   }  
 });  
   
-// Delete group (admin only)  
 router.delete("/:id", async (req, res) => {  
   try {  
     const group = await dbGet("SELECT * FROM groups_table WHERE id = ?", [req.params.id]);  
@@ -190,7 +178,6 @@ router.delete("/:id", async (req, res) => {
   }  
 });  
   
-// Remove member (admin only)  
 router.delete("/:id/members/:userId", async (req, res) => {  
   try {  
     const group = await dbGet("SELECT * FROM groups_table WHERE id = ?", [req.params.id]);  
