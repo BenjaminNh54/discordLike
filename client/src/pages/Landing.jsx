@@ -1,0 +1,61 @@
+import { Link, Navigate } from "react-router-dom";  
+import { useAuth } from "../context/AuthContext";  
+import { MessageCircle, Users, Mic, Upload, Shield, Zap } from "lucide-react";  
+  
+export default function Landing() {  
+  const { user, loading } = useAuth();  
+  if (loading) return <div className="loading-screen">Chargement...</div>;  
+  if (user) return <Navigate to="/home" />;  
+  
+  return (  
+    <div className="landing-page">  
+      <nav className="landing-nav">  
+        <div className="landing-nav-brand">  
+          <MessageCircle size={28} color="#5865f2" />  
+          <span>MessoChat</span>  
+        </div>  
+        <div className="landing-nav-links">  
+          <Link to="/login" className="btn-secondary">Se connecter</Link>  
+          <Link to="/register" className="btn-primary">Créer un compte</Link>  
+        </div>  
+      </nav>  
+  
+      <section className="landing-hero">  
+        <MessageCircle size={80} color="#5865f2" />  
+        <h1>Discutez en groupe, en temps réel</h1>  
+        <p>MessoChat est une plateforme de messagerie instantanée avec groupes privés, messages vocaux et partage de fichiers.</p>  
+        <div className="landing-hero-actions">  
+          <Link to="/register" className="btn-primary">Commencer gratuitement</Link>  
+          <Link to="/login" className="btn-secondary">J'ai déjà un compte</Link>  
+        </div>  
+      </section>  
+  
+      <section className="landing-features">  
+        <div className="feature-card">  
+          <Users size={32} color="#5865f2" />  
+          <h3>Groupes privés</h3>  
+          <p>Créez vos groupes et invitez vos amis avec un système de demandes d'adhésion.</p>  
+        </div>  
+        <div className="feature-card">  
+          <Zap size={32} color="#5865f2" />  
+          <h3>Temps réel</h3>  
+          <p>Messages instantanés avec indicateur de frappe en direct.</p>  
+        </div>  
+        <div className="feature-card">  
+          <Mic size={32} color="#5865f2" />  
+          <h3>Messages vocaux</h3>  
+          <p>Enregistrez et envoyez des messages vocaux directement dans le chat.</p>  
+        </div>  
+        <div className="feature-card">  
+          <Upload size={32} color="#5865f2" />  
+          <h3>Partage de fichiers</h3>  
+          <p>Partagez images, vidéos et fichiers jusqu'à 50 Mo.</p>  
+        </div>  
+      </section>  
+  
+      <footer className="landing-footer">  
+        <p>MessoChat — Messagerie de groupe open source</p>  
+      </footer>  
+    </div>  
+  );  
+}
