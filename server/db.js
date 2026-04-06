@@ -6,25 +6,21 @@ const db = createClient({
   authToken: process.env.TURSO_AUTH_TOKEN,  
 });  
   
-// Fonction helper pour exécuter une requête et retourner toutes les lignes  
 async function dbAll(sql, args = []) {  
   const result = await db.execute({ sql, args });  
   return result.rows;  
 }  
   
-// Fonction helper pour exécuter une requête et retourner la première ligne  
 async function dbGet(sql, args = []) {  
   const result = await db.execute({ sql, args });  
   return result.rows[0] || null;  
 }  
   
-// Fonction helper pour exécuter une requête d'écriture (INSERT/UPDATE/DELETE)  
 async function dbRun(sql, args = []) {  
   const result = await db.execute({ sql, args });  
   return { lastInsertRowid: Number(result.lastInsertRowid), changes: result.rowsAffected };  
 }  
   
-// Initialiser les tables (à appeler au démarrage)  
 async function initDb() {  
   const statements = [  
     `CREATE TABLE IF NOT EXISTS users (  
@@ -86,7 +82,6 @@ async function initDb() {
     await db.execute(sql);  
   }  
   
-  // Seed admin password  
   const adminPw = await dbGet("SELECT * FROM admin_settings WHERE key = 'admin_password'");  
   if (!adminPw) {  
     const hashed = bcrypt.hashSync("123456789", 10);  
