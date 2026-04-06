@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";  
 import { AuthProvider, useAuth } from "./context/AuthContext";  
+import Landing from "./pages/Landing";  
 import Login from "./pages/Login";  
 import Register from "./pages/Register";  
 import Home from "./pages/Home";  
 import Chat from "./pages/Chat";  
 import Admin from "./pages/Admin";  
-import Landing from "./pages/Landing";  
 import "./App.css";  
   
 function PrivateRoute({ children }) {  
@@ -25,9 +25,9 @@ function App() {
     <AuthProvider>  
       <BrowserRouter>  
         <Routes>  
-          <Route path="/" element={<Landing />} />  
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />  
           <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />  
+          <Route path="/" element={<Landing />} />  
           <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />  
           <Route path="/chat/:groupId" element={<PrivateRoute><Chat /></PrivateRoute>} />  
           <Route path="/admin" element={<Admin />} />  
