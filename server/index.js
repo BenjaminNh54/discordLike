@@ -24,14 +24,12 @@ app.use(express.json());
 app.use(cookieParser());  
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));  
   
-// Routes  
 app.use("/api/auth", authRoutes);  
 app.use("/api/groups", authenticateToken, groupRoutes);  
 app.use("/api/messages", authenticateToken, messageRoutes);  
 app.use("/api/admin", adminRoutes);  
 app.use("/api/upload", authenticateToken, uploadRoutes);  
   
-// Serve frontend in production  
 if (process.env.NODE_ENV === "production") {  
   app.use(express.static(path.join(__dirname, "../client/dist")));  
   app.get("*path", (req, res) => {  
@@ -39,7 +37,6 @@ if (process.env.NODE_ENV === "production") {
   });  
 }  
   
-// Socket.io  
 const connectedUsers = new Map();  
   
 io.use((socket, next) => {  
