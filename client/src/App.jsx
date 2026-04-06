@@ -1,25 +1,25 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import Chat from "./pages/Chat";
-import Admin from "./pages/Admin";
-import Landing from "./pages/Landing"; 
-import "./App.css";
-
-function PrivateRoute({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="loading-screen">Chargement...</div>;
-  return user ? children : <Navigate to="/login" />;
-}
-
-function PublicRoute({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="loading-screen">Chargement...</div>;
-  return !user ? children : <Navigate to="/" />;
-}
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";  
+import { AuthProvider, useAuth } from "./context/AuthContext";  
+import Login from "./pages/Login";  
+import Register from "./pages/Register";  
+import Home from "./pages/Home";  
+import Chat from "./pages/Chat";  
+import Admin from "./pages/Admin";  
+import Landing from "./pages/Landing";  
+import "./App.css";  
+  
+function PrivateRoute({ children }) {  
+  const { user, loading } = useAuth();  
+  if (loading) return <div className="loading-screen">Chargement...</div>;  
+  return user ? children : <Navigate to="/login" />;  
+}  
+  
+function PublicRoute({ children }) {  
+  const { user, loading } = useAuth();  
+  if (loading) return <div className="loading-screen">Chargement...</div>;  
+  return !user ? children : <Navigate to="/home" />;  
+}  
+  
 function App() {  
   return (  
     <AuthProvider>  
@@ -36,4 +36,5 @@ function App() {
     </AuthProvider>  
   );  
 }  
+  
 export default App;
