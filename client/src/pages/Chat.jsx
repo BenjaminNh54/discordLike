@@ -72,7 +72,7 @@ export default function Chat() {
     if (data.group) {
       setGroup(data.group);
       setMembers(data.members);
-      if (!data.isMember) navigate("/");
+      if (!data.isMember) navigate("/home");
     }
   };
 
