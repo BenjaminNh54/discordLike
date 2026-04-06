@@ -277,7 +277,7 @@ export default function Chat() {
       {/* Chat header */}
       <div className="chat-header">
         <div className="chat-header-left">
-          <button className="back-btn" onClick={() => navigate("/")}>
+          <button className="back-btn" onClick={() => navigate("/home")}>
             <ArrowLeft size={20} />
           </button>
           <Hash size={20} />
