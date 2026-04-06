@@ -112,7 +112,7 @@ export default function Admin() {
             <button type="submit" className="btn-primary">Accéder</button>
           </form>
           <p className="auth-footer">
-            <a href="#" onClick={() => navigate("/")}>Retour à MessoChat</a>
+            <a href="#" onClick={() => navigate("/home")}>Retour à MessoChat</a>
           </p>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function Admin() {
           </button>
         </div>
         <div className="sidebar-footer">
-          <button className="sidebar-btn" onClick={() => navigate("/")}>
+          <button className="sidebar-btn" onClick={() => navigate("/home")}>
             <ArrowLeft size={18} /> Retour
           </button>
         </div>
